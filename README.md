@@ -117,6 +117,15 @@ widget.live?
 # Returns who put the widget into its current state.
 widget.originator
 
+# Returns who create object
+widget.created_by
+
+# Returns who destroy object
+widget.destroyed_by
+
+# Returns who last update object
+widget.updated_by
+
 # Returns the widget (not a version) as it looked at the given timestamp.
 widget.version_at(timestamp)
 

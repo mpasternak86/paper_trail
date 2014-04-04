@@ -63,6 +63,60 @@ describe Widget do
         end
       end
 
+      describe :created_by do
+        it { should respond_to(:created_by) }
+
+        let(:orig_name) { Faker::Name.name }
+        let(:new_name) { Faker::Name.name }
+
+        before do
+          PaperTrail.whodunnit = orig_name
+        end
+
+        it "should return whounnit who create instance" do
+          widget.created_by.should == orig_name
+        end
+
+        it "shuld not return whouunit who update instance" do
+          PaperTrail.whodunnit = new_name
+          widget.update_attributes(:name => 'Elizabeth')
+          widget.created_by.should_not == orig_name
+        end
+      end
+
+      describe :destroyed_by do
+        it { should respond_to(:destroyed_by) }
+
+        let(:orig_name) { Faker::Name.name }
+
+        before do
+          PaperTrail.whodunnit = orig_name
+        end
+
+        it "should return whounnit who destroy instance" do
+          widget.destroy
+          widget.destroyed_by.should == orig_name
+        end
+      end
+
+      describe :updated_by do
+        it { should respond_to(:updated_by) }
+
+        let(:orig_name) { Faker::Name.name }
+        let(:new_name) { Faker::Name.name }
+
+        before do
+          PaperTrail.whodunnit = orig_name
+        end
+
+        it "should return whounnit who update instance" do
+          PaperTrail.whodunnit = new_name
+          widget.update_attributes(:name => 'Elizabeth')
+          widget.updated_by.should_not == orig_name
+          widget.updated_by.should == new_name
+        end
+      end
+
       describe :touch_with_version do
         it { should respond_to(:touch_with_version) }
 

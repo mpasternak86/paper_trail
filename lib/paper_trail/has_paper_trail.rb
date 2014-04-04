@@ -173,6 +173,21 @@ module PaperTrail
         @originator ||= self.class.paper_trail_version_class.with_item_keys(self.class.base_class.name, id).last.try :whodunnit
       end
 
+      # Returns who create object
+      def created_by
+        @created_by ||= self.class.paper_trail_version_class.with_item_keys(self.class.base_class.name, id).creates.last.try :whodunnit
+      end
+
+      # Returns who destroy object
+      def destroyed_by
+        @destroyed_by ||= self.class.paper_trail_version_class.with_item_keys(self.class.base_class.name, id).destroys.last.try :whodunnit
+      end
+
+      # Returns who last update object
+      def updated_by
+        @updated_by ||= self.class.paper_trail_version_class.with_item_keys(self.class.base_class.name, id).updates.last.try :whodunnit
+      end
+
       # Returns the object (not a Version) as it was at the given timestamp.
       def version_at(timestamp, reify_options={})
         # Because a version stores how its object looked *before* the change,
